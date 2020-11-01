@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>home page</h1>
+<p>welcom, this is a simple website developed by dsq</p>
+<h2>Dynamic Content</h2>
+<ul>
+    <li><strong>Hosts:</strong>{{ num_hosts }}</li>
+    <li><strong>Records:</strong>{{ num_records }}</li>
+</ul>
+{% endblock %}

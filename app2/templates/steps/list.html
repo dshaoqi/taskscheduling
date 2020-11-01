@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>测试</h1>
+<form action="stepresult" method="POST">
+    <input type="text" name="ip" value="127.0.0.1">
+    <input type="text" name="username" value="dsq">
+    <input type="text" name="command" value="/bin/ls">
+    <input type="submit" value="执行"/>
+</form>
+{% endblock %}

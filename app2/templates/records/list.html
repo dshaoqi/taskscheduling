@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>记录列表</h1>
+{% if record_list %}
+    <table border="1">
+        {% for record in record_list %}
+        <tr>
+            <td>{{ record.begin_time|date:"Y-m-d H:i:s" }}</td>
+            <td>{{record.end_time|date:"Y-m-d H:i:s" }}</td>
+            <td>{{record.ip}}</td>
+            <td>{{record.command}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>There are no records in the library.</p>
+{% endif %}
+{% endblock %}

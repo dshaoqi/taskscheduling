@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>记录列表</h1>
+{% if record_list %}
+    <ul>
+        {% for record in record_list %}
+        <li>
+            <a href="">{{ record.begin_time }}</a>{{ record.ip }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>There are no records in the library.</p>
+{% endif %}
+{% endblock %}
