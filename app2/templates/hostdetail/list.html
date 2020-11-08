@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>user list</h1>
+{% if user_list %}
+    <ul>
+        {% for user in user_list %}
+        <li>
+            <a href="">{{ user.username }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>no hosts</p>
+{% endif %}
+
+<h1>method list</h1>
+{% if method_list %}
+    <ul>
+        {% for method in method_list %}
+        <li>
+            <a href="">{{ method.command }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>no method</p>
+{% endif %}
+
+<h1>record list</h1>
+{% if record_list %}
+    <ul>
+        {% for record in record_list %}
+        <li>
+            <a href="">{{ record.begin_time }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>no record</p>
+{% endif %}
+
+
+{% endblock %}

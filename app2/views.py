@@ -77,7 +77,21 @@ def FlowCommitView(request):
             stdin,stdout,stderr = ssh.exec_command(command)
             out,err=stdout.read().decode('utf-8'),stderr.read().decode('utf-8')
             status=stdout.channel.recv_exit_status()
+            ssh.close()
             return HttpResponse(out+":"+err+":status=%d"%status)
         else:
             return HttpResponse(ip+":"+username+":"+command)
 
+def HostDetailView(request,host_id):
+    host = Host.objects.get(id=int(host_id))
+    #print ("host:"+host.ip)
+    user_list = host.user_set.all() 
+    method_list = host.method_set.all()
+    record_list = Record.objects.none()
+    for method in method_list :
+        record_list |= method.record_set.all()
+    print(record_list)
+        #print(user_list)
+    context={ "user_list":user_list,"method_list":method_list,"record_list":record_list }
+
+    return render(request,'hostdetail/list.html',context)

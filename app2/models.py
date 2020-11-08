@@ -23,9 +23,7 @@ class Method(models.Model):
         return self.command
 
 class Record(models.Model):
-    begin_time = models.DateTimeField('begin timea',null=True)
+    begin_time = models.DateTimeField('begin time',null=True)
     end_time = models.DateTimeField('end time',null=True)
     method = models.ForeignKey(Method, on_delete=models.CASCADE)
-    res = models.IntegerField(default=9999)
-    def __str__(self):
-        return begin_time
+    res = models.IntegerField(default=4399)

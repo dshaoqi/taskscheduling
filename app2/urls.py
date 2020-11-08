@@ -9,4 +9,6 @@ urlpatterns = [
     path('steps/stepresult',views.StepResultView,name='stepresult'),
     path('flows/',views.FlowView,name='flows'),
     path('flows/flowcommit',views.FlowCommitView,name='flowcommit'),
+    path('hosts/<int:host_id>',views.HostDetailView,name='hostdetail'),
+    
 ]

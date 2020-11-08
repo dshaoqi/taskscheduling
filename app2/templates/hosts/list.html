@@ -5,7 +5,7 @@
     <ul>
         {% for host in host_list %}
         <li>
-            <a href="">{{ host.ip }}</a>{{host.hostname}}
+            <a href="{% url 'hostdetail' host.id %}">{{ host.ip }}</a>{{host.hostname}}
         </li>
         {% endfor %}
     </ul>
