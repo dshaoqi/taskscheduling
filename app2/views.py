@@ -46,7 +46,7 @@ def StepResultView(request):
             buff+=resp.decode('utf-8')
         print("root reach")
 
-        shell.send('rm -f /tmp/test \n')
+        shell.send(command+'\n')
         shell.close()
         ssh.close()
         response = ip+":"+username+":"+command+":"+buff
@@ -62,17 +62,14 @@ def FlowView(request):
 def FlowCommitView(request):
     if request.method == "POST":
         mid = int(request.POST.get("fcb"))
-        print("mid=%d"%(mid))
         obj = Method.objects.get(id=mid)
         ip = obj.ip.ip
         username = obj.username.username
         command = obj.command
-        print("%s:%s:%s"%(ip,username,command))
         password = User.objects.filter(ip__ip=ip,username=username)[0].password
-        print("%s"%password)
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         if username !='root':
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ssh.connect(ip,22,username,password,timeout=5)
             stdin,stdout,stderr = ssh.exec_command(command)
             out,err=stdout.read().decode('utf-8'),stderr.read().decode('utf-8')
@@ -80,7 +77,30 @@ def FlowCommitView(request):
             ssh.close()
             return HttpResponse(out+":"+err+":status=%d"%status)
         else:
-            return HttpResponse(ip+":"+username+":"+command)
+            ssh.connect(ip,22,'myroot','abcd1234',timeout=5)
+            shell=ssh.invoke_shell()
+            time.sleep(0.1)
+
+            shell.send('su - \n')
+            buff=''
+            while not buff.endswith('Password: '):
+                resp=shell.recv(10000)
+                buff+=resp.decode('utf-8')
+
+            shell.send(password+'\n')
+            buff=''
+            while not buff.endswith('# '):
+                resp=shell.recv(10000)
+                buff+=resp.decode('utf-8')
+            print(ip+":root reach")
+
+            shell.send(command+'\n')
+            buff=''
+            while not buff.endswith('# '):
+                resp = shell.recv(10000)
+                buff += resp.decode('utf-8') 
+
+            return HttpResponse(ip+":"+username+":"+command+'\n'+buff)
 
 def HostDetailView(request,host_id):
     host = Host.objects.get(id=int(host_id))
@@ -91,7 +111,6 @@ def HostDetailView(request,host_id):
     for method in method_list :
         record_list |= method.record_set.all()
     print(record_list)
-        #print(user_list)
     context={ "user_list":user_list,"method_list":method_list,"record_list":record_list }
 
     return render(request,'hostdetail/list.html',context)
