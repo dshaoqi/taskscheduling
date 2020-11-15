@@ -12,3 +12,12 @@ admin.site.register(User)
 admin.site.register(Method)
 admin.site.register(Record)
 admin.site.register(Flow)
+'''
+class MethodInline(admin.TabularInline):
+    model = Method
+
+@admin.register(Flow)
+class FlowAdmin(admin.ModelAdmin):
+    inlines = [ MethodInline ]
+'''
+

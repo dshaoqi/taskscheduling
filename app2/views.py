@@ -13,10 +13,12 @@ def index(request):
 
 class HostListView(generic.ListView):
     model = Host
+    paginate_by = 10 #分页
     template_name='hosts/list.html'
 
 class RecordListView(generic.ListView):
     model = Record 
+    paginate_by = 10 #分页
     template_name='records/list.html'
 
 def StepView(request):
@@ -110,7 +112,7 @@ def HostDetailView(request,host_id):
     record_list = Record.objects.none()
     for method in method_list :
         record_list |= method.record_set.all()
-    print(record_list)
+    #print(record_list)
     context={ "user_list":user_list,"method_list":method_list,"record_list":record_list }
 
     return render(request,'hostdetail/list.html',context)

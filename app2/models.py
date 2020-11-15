@@ -40,8 +40,16 @@ class Record(models.Model):
         return self.begin_time.strftime('%Y-%m-%d %H:%M:%S')+"::"+self.method+"::"+str(res)
 
 class Flow(models.Model):
-    method = models.ManyToManyField(Method)
+    methods = models.ManyToManyField(Method, through='FlowMethodMembership')
     name = models.CharField(max_length=256)
-    create_time = models.DateTimeField(auto_now=True)
+    create_time = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name+"::"+self.create_time.strftime('%Y-%m-%d %H:%M:%S')
+    class Meta:
+        ordering = [ 'create_time' ]
+
+class FlowMethodMembership(models.Model):
+    method = models.ForeignKey(Method, on_delete=models.CASCADE)
+    flow = models.ForeignKey(Flow, on_delete=models.CASCADE)
+    rank = models.IntegerField(default=4399)
+    add_time = models.DateTimeField(auto_now=True)
