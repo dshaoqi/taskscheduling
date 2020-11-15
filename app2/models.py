@@ -4,6 +4,7 @@ from django.urls import reverse
 class Host(models.Model):
     ip = models.CharField(max_length=32,default='1.1.1.1')
     hostname = models.CharField(max_length=32,default='unknown')
+    search_fields = [ 'hostname' ]
     def get_absolute_url(self):
         return reverse('hostdetail',args=[str(self.id)])
     def __str__(self):
@@ -17,13 +18,14 @@ class User(models.Model):
     username = models.CharField(max_length=24,default='myroot')
     password = models.CharField(max_length=24)
     def __str__(self):
-        return self.ip.ip+"::"+self.username
+        return self.username
 
         
 class Method(models.Model):
     ip = models.ForeignKey(Host, on_delete=models.CASCADE)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
-    command = models.CharField(max_length=1024,default='df -h')
+    command = models.CharField(max_length=512,default='df -h')
+    comments = models.CharField(max_length=512,default='comments has not been added')
     create_time = models.DateTimeField(auto_now=True)
     expect_res = models.IntegerField(default=4398)
     def __str__(self):
@@ -47,6 +49,8 @@ class Flow(models.Model):
         return self.name+"::"+self.create_time.strftime('%Y-%m-%d %H:%M:%S')
     class Meta:
         ordering = [ 'create_time' ]
+    def get_absolute_url(self):
+        return reverse('flowdetail', args=[str(self.id)])
 
 class FlowMethodMembership(models.Model):
     method = models.ForeignKey(Method, on_delete=models.CASCADE)

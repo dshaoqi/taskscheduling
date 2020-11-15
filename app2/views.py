@@ -116,3 +116,9 @@ def HostDetailView(request,host_id):
     context={ "user_list":user_list,"method_list":method_list,"record_list":record_list }
 
     return render(request,'hostdetail/list.html',context)
+
+def FlowDetailView(request,flow_id):
+    flow = Flow.obejects.get(id=int(flow_id))
+    method_list = flow.methods.all()
+    context = { "method_list":method_list, "flow":flow }
+    return render(request,"flowdetail/list.html",context)
