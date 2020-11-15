@@ -57,3 +57,5 @@ class FlowMethodMembership(models.Model):
     flow = models.ForeignKey(Flow, on_delete=models.CASCADE)
     rank = models.IntegerField(default=4399)
     add_time = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['method','rank']

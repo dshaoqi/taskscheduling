@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>测试</h1>
+<table border="1">
+    <tr>
+        <td>ip</td>
+        <td>用户</td>
+        <td>命令</td>
+    </tr>
+    {% for method in method_list %}
+    <tr>
+        <td>{{ method.ip.ip }}</td>
+        <td>{{ method.username.username }}</td>
+        <td>{{ method.command }}</td>
+        <td><form><button name="fcb" value={{ method.id }} formmethod="POST" formaction="flowcommit" type="submit">执行</button></form></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

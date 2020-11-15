@@ -1,43 +1,33 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<h1>user list</h1>
-{% if user_list %}
-    <ul>
-        {% for user in user_list %}
-        <li>
-            <a href="">{{ user.username }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>no hosts</p>
-{% endif %}
-
-<h1>method list</h1>
+<table border="1">
+    <tr>
+        <td>flow name</td>
+        <td>{{ flow.name }}</td>
+    </tr>
+    <tr>
+        <td>flow create_time</td>
+        <td>{{ flow.create_time }}</td>
+    </tr>
+</table>
+<h2>related method list</h2>
 {% if method_list %}
-    <ul>
+    <table border="1">
+        <tr>
+            <th>ip</th>
+            <th>username</th>
+            <th>command</th>
+        </tr>
         {% for method in method_list %}
-        <li>
-            <a href="">{{ method.command }}</a>
-        </li>
+        <tr>
+            <td>{{ method.ip.ip }}</td>
+            <td>{{ method.username.username }}</td>
+            <td>{{ method.command }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
 {% else %}
-    <p>no method</p>
+    <p>no method related</p>
 {% endif %}
-
-<h1>record list</h1>
-{% if record_list %}
-    <ul>
-        {% for record in record_list %}
-        <li>
-            <a href="">{{ record.begin_time }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>no record</p>
-{% endif %}
-
 
 {% endblock %}

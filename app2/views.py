@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Host,User,Record,Method
+from .models import Host,User,Record,Method,Flow
 from django.views import generic
 import paramiko
 import time
@@ -56,6 +56,11 @@ def StepResultView(request):
     else:
         return HttpResponse("wrong request")
 
+class FlowListView(generic.ListView):
+    model = Flow
+    template_name = 'flows/list.html'
+
+'''
 def FlowView(request):
     method_list=Method.objects.all()
     context={"method_list":method_list}
@@ -103,6 +108,7 @@ def FlowCommitView(request):
                 buff += resp.decode('utf-8') 
 
             return HttpResponse(ip+":"+username+":"+command+'\n'+buff)
+'''
 
 def HostDetailView(request,host_id):
     host = Host.objects.get(id=int(host_id))
@@ -118,7 +124,8 @@ def HostDetailView(request,host_id):
     return render(request,'hostdetail/list.html',context)
 
 def FlowDetailView(request,flow_id):
-    flow = Flow.obejects.get(id=int(flow_id))
+    flow = Flow.objects.get(id=int(flow_id))
     method_list = flow.methods.all()
+    #mem_list = FlowMethodMembership.objects.filter(flow__id=flow.id)
     context = { "method_list":method_list, "flow":flow }
     return render(request,"flowdetail/list.html",context)
