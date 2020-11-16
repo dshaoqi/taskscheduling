@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Host,User,Record,Method,Flow
+from .models import Host,User,Record,Method,Flow,FlowMethodMembership
 from django.views import generic
 import paramiko
 import time
@@ -120,12 +120,20 @@ def HostDetailView(request,host_id):
         record_list |= method.record_set.all()
     #print(record_list)
     context={ "user_list":user_list,"method_list":method_list,"record_list":record_list }
-
     return render(request,'hostdetail/list.html',context)
 
 def FlowDetailView(request,flow_id):
     flow = Flow.objects.get(id=int(flow_id))
-    method_list = flow.methods.all()
-    #mem_list = FlowMethodMembership.objects.filter(flow__id=flow.id)
-    context = { "method_list":method_list, "flow":flow }
+    mrank_list = []
+    membership = FlowMethodMembership.objects.filter(flow__id=flow_id)
+    for member in membership:
+        method = Method.objects.filter(id=member.method.id)[0]
+        ip = method.ip.ip
+        username = method.username.username
+        command = method.command
+        rank = member.rank
+        comments = method.comments
+        mrank_list.append({"ip":ip,"username":username,"command":command,"rank":rank,"comments":comments})
+    mrank_list.sort(key=(lambda x:x.get('rank')))
+    context = { "mrank_list":mrank_list, "flow":flow }
     return render(request,"flowdetail/list.html",context)

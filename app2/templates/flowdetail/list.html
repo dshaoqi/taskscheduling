@@ -10,19 +10,23 @@
         <td>{{ flow.create_time }}</td>
     </tr>
 </table>
-<h2>related method list</h2>
-{% if method_list %}
+<h2>sorted method list</h2>
+{% if mrank_list %}
     <table border="1">
         <tr>
+            <th>rank</th>
             <th>ip</th>
             <th>username</th>
             <th>command</th>
+            <th>comments</th>
         </tr>
-        {% for method in method_list %}
+        {% for mrank in mrank_list %}
         <tr>
-            <td>{{ method.ip.ip }}</td>
-            <td>{{ method.username.username }}</td>
-            <td>{{ method.command }}</td>
+            <td>{{ mrank.rank }}</td>
+            <td>{{ mrank.ip }}</td>
+            <td>{{ mrank.username }}</td>
+            <td>{{ mrank.command }}</td>
+            <td>{{ mrank.comments }}</td>
         </tr>
         {% endfor %}
     </table>
