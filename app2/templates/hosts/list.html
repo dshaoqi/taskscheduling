@@ -2,13 +2,18 @@
 {% block content %}
 <h1>主机列表</h1>
 {% if host_list %}
-    <ul>
-        {% for host in host_list %}
-        <li>
-            <a href="{{ host.get_absolute_url }}">{{ host.ip }}</a>{{host.hostname}}
-        </li>
-        {% endfor %}
-    </ul>
+<table border="1">
+    <tr>
+        <th>ip</th>
+        <th>hostname</th>
+    </tr>
+    {% for host in host_list %}
+    <tr>
+        <th><a href="{{ host.get_absolute_url }}">{{ host.ip }}</a></th>
+        <th>{{host.hostname}}</th>
+    </tr>
+    {% endfor %}
+</table>
 {% else %}
     <p>There are no hosts in the library.</p>
 {% endif %}
