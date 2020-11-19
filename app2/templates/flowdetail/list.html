@@ -13,7 +13,7 @@
 </table>
 <h2>sorted method list</h2>
 {% if mrank_list %}
-    <table border="1">
+    <table id="fmlist" border="1">
         <tr>
             <th>rank</th>
             <th>ip</th>
@@ -28,6 +28,7 @@
             <td>{{ mrank.username }}</td>
             <td>{{ mrank.command }}</td>
             <td>{{ mrank.comments }}</td>
+            <td >{{ mrank.methodid }}</td>
         </tr>
         {% endfor %}
     </table>

@@ -133,7 +133,19 @@ def FlowDetailView(request,flow_id):
         command = method.command
         rank = member.rank
         comments = method.comments
-        mrank_list.append({"ip":ip,"username":username,"command":command,"rank":rank,"comments":comments})
+        mrank_list.append({ "ip":ip, "username":username, "command":command, "rank":rank, "comments":comments, "methodid":method.id })
     mrank_list.sort(key=(lambda x:x.get('rank')))
     context = { "mrank_list":mrank_list, "flow":flow }
     return render(request,"flowdetail/list.html",context)
+
+
+def FlowCommitView(request):
+    if request.method == 'POST':
+        if request.POST:
+            methodid = request.POST.get('methodid',0)
+            method = Method.objects.get(id=int(methodid))
+            print(method)
+            return HttpResponse("ok")
+    else:
+        return HttpResponse("no")
+

@@ -10,5 +10,5 @@ urlpatterns = [
     path('flows/',views.FlowListView.as_view(),name='flows'),
     path('hosts/<int:host_id>',views.HostDetailView,name='hostdetail'),
     path('flows/<int:flow_id>',views.FlowDetailView,name='flowdetail'),
-    
+    path('flowcommit',views.FlowCommitView,name='flowcommit'),
 ]
