@@ -3,6 +3,9 @@ from .models import Host,User,Record,Method,Flow,FlowMethodMembership
 from django.views import generic
 import paramiko
 import time
+#import sys
+#sys.path.append('/home/dsq/python/django/test1/app2/other')
+from .localssh import CarryOut
 # Create your views here.
 from django.http import HttpResponse
 
@@ -103,9 +106,10 @@ def FlowCommitView(request):
             flow = Flow.objects.get(id=int(flowid))
             print(flow)
             membership = flow.flowmethodmembership_set.all()
-            membership.sort(key=(lambda x:x.rank))
+            print(membership)
             for mem in membership:
-                method = Method.objects.get(id=mem.id)
+                #method = Method.objects.get(id=mem.method.id)
+                method = mem.method
                 res = CarryOut(method)
                 if(res!='ok'):
                     return HttpResponse(res);
@@ -115,6 +119,9 @@ def FlowCommitView(request):
 
 def FlowStatusView(request):
     if request.method == 'POST':
-        return HttpResponse("FlowStatusView() no")
+        if request.POST:
+            flowid = request.POST.get('flowid',0)
+            print(flowid)
+        return HttpResponse("ok")
     else:
-        return HttpResponse("FlowStatusView() no")
+        return HttpResponse("no")
